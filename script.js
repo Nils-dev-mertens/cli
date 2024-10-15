@@ -1,4 +1,5 @@
 import si from "systeminformation";
+import fs from "fs"
 si.cpu()
   .then(data => console.log(`CPU => ${data.brand}`))
   .catch(error => console.error(error));

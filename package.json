@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "fs": "^0.0.1-security",
+    "fs-extra": "^11.2.0",
     "systeminformation": "^5.23.5"
   }
 }
