@@ -1,14 +1,18 @@
 import si from "systeminformation";
 import fs from "fs/promises"
-si.cpu()
-  .then(data => console.log(`CPU => ${data.brand}`))
+let cpu = await si.cpu()
+  .then(data => {return data.brand})
   .catch(error => console.error(error));
-si.graphics()
-  .then(data => console.log(`GPU => ${data.controllers[0].model}`))
+let gpu = await si.graphics()
+  .then(data => {return data.controllers[0].model})
   .catch(error => console.error(error));
-si.osInfo()
-  .then(data => console.log(`OS => ${data.platform}`))
+let os = await si.osInfo()
+  .then(data => {return data})
   .catch(error => console.error(error));
-si.battery()
-  .then(data => console.log(`BATTERY => ${data.percent}, ${data.maxCapacity}mah`))
+let battery = await si.battery()
+  .then(data => {return data})
   .catch(error => console.error(error));
+const arr = [cpu, gpu, os, battery];
+arr.forEach(element => {
+  console.log(element);
+});
