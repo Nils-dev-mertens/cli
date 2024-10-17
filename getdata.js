@@ -1,6 +1,7 @@
 import si from "systeminformation";
-import fs from "fs/promises"
-let cpu = await si.cpu()
+import fs from "fs/promises";
+export default async function createdata() {
+  let cpu = await si.cpu()
   .then(data => {return data})
   .catch(error => console.error(error));
 let gpu = await si.graphics()
@@ -17,3 +18,4 @@ arr.forEach(element => {
   console.log(element);
 });
 fs.writeFile("data.json", JSON.stringify(arr, null, 2));
+}
