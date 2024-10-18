@@ -1,3 +1,3 @@
 import pcdata from "./getdata.js";
 import data from "./data.json" assert {type : "json"};
-console.log(data[0].brand);
+console.log(data);
