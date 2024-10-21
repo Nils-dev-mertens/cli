@@ -10,6 +10,7 @@ if (args.length > 0) {
 } else {
     console.log('No arguments provided.');
 }
+const fucntion = [damm()];
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,});
@@ -18,3 +19,7 @@ rl.question(`new user?`, answer => {
     console.log(`${answer}`);
     rl.close();
 });
+fucntion[0];
+function damm(params) {
+    console.log("function damm");
+}
