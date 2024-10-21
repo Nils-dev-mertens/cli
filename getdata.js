@@ -1,6 +1,7 @@
 import si from "systeminformation";
 import fs from "fs/promises";
-export default async function createdata() {
+export default async function createdata(param) {
+if(param === "y"){
 const cpu = await si.cpu()
   .then(data => {return data})
   .catch(error => console.error(error));
@@ -23,4 +24,4 @@ const arr = [cpu, gpu, os, battery, network];
 fs.writeFile("data.json", JSON.stringify(arr, null, 2));
 fs.writeFile("all.json", JSON.stringify(all, null, 2));
 }
-createdata();
+}
