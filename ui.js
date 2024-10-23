@@ -18,10 +18,10 @@ if (args.length != 0) {
             case "-f":
                 col_function.push(newuser);
                 break;
-            case "-s":
+            case "-sd":
                 col_function.push([show,data]);
                 break;
-            case "damn":
+            case "-sc":
                 col_function.push(lol);
                 break;
             default:
@@ -38,12 +38,7 @@ function newuser() {
         close();
     });
 }
-function damm() {
-    console.log("function damm");
-}
-function lol() {
-    console.log("function lol");
-}
+
 //function get is used to active the imported js file, if i just used it in the newuser fucntion it always activates
 function get() {
     pcdata("y");
