@@ -3,20 +3,26 @@ import readline from 'node:readline';
 import data from "./data.json" assert {type : "json"};
 import config from "./config.json" assert {type : "json"};
 const col_function = [];
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+function createReadlineInterface() {
+    return readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+}
+let rl;
 const args = process.argv.slice(2); // Slice to ignore the first two default args
-if (args.length > 0) {
+if (args.length != 0) {
     for (let i = 0; i < args.length; i++) {
         const element = args[i];
         switch (element) {
-            case "start":
-                    col_function.push(newuser());
+            case "-f":
+                col_function.push(newuser);
                 break;
-            case "lol":
-                    col_function.push(damm());
+            case "-s":
+                col_function.push([show,data]);
+                break;
+            case "damn":
+                col_function.push(lol);
                 break;
             default:
                 break;
@@ -24,16 +30,36 @@ if (args.length > 0) {
     }
 }
 function newuser() {
-    rl.question(`new user?(y/n) `,answer => {
-        if(answer == "y"){
+    rl = createReadlineInterface();
+    rl.question(`new user?(y/n) `, answer => {
+        if (answer == "y") {
             get();
         }
-        rl.close();
+        close();
     });
 }
-function damm(params) {
+function damm() {
     console.log("function damm");
 }
+function lol() {
+    console.log("function lol");
+}
+//function get is used to active the imported js file, if i just used it in the newuser fucntion it always activates
 function get() {
     pcdata("y");
 }
+function show(params) {
+    console.log(params);
+}
+function close(params) {
+    rl.close();
+}
+col_function.forEach(element => {
+    if(Array.isArray(element)){
+        element[0](element[1]);
+    }
+    else
+    {
+        element();
+    }
+});
