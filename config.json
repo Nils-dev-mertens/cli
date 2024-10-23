@@ -1,5 +1,13 @@
 {
-    "config" : [
-        
-    ]
+    "config" : {
+        "cpu" : true,
+        "gpu" : false,
+        "memory" : true,
+        "storage" : true,
+        "network" : true
+    },
+    "profile" : {
+        "hostname" :  "default",
+        "description": "Default profile for all users."
+    }
 }
