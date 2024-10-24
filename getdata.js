@@ -9,17 +9,38 @@ const all = await si.getAllData()
 fs.writeFile("all.json", JSON.stringify(all, null, 2));
 }
 else if(param === "config"){
-  let boolcpu = config_data.config.cpu;
-  let boolgpu = config_data.config.cpu;
-  let boolmemory = config_data.config.cpu;
-  let boolstorage = config_data.config.cpu;
-  let boolnetwork = config_data.config.cpu;
+  const boolcpu = config_data.config.cpu;
+  const boolgpu = config_data.config.cpu;
+  const boolmemory = config_data.config.cpu;
+  const boolstorage = config_data.config.cpu;
+  const boolnetwork = config_data.config.cpu;
   const arr = [];
-  const boolarr = [boolcpu, boolgpu, boolmemory, boolstorage, boolnetwork];
-  boolarr.forEach(element => {
-    
-  });
-
-  // fs.writeFile("data.json", JSON.stringify(arr, null, 2));
+  if(boolcpu === true){
+    const local_data_cpu = await si.cpu()
+      .then(data => {return data});
+    arr.push(local_data_cpu);
+  }
+  if(boolgpu === true){
+    const local_data_gpu = await si.graphics()
+      .then(data => {return data});
+    arr.push(local_data_gpu);
+  }
+  if(boolmemory === true){
+    const local_data_memory = await si.mem()
+      .then(data => {return data});
+    arr.push(local_data_memory);
+  }
+  if(boolstorage === true){
+    const local_data_storage = await si.diskLayout()
+      .then(data => {return data});
+    arr.push(local_data_storage);
+  }
+  if(boolnetwork === true){
+    const local_data_network = await si.networkGatewayDefault()
+      .then(data => {return data});
+    arr.push(local_data_network);
+  }
+  fs.writeFile("data.json", JSON.stringify(arr, null, 2));
 }
 }
+createdata("config");

@@ -37,7 +37,7 @@ function newuser() {
     rl = createReadlineInterface();
     rl.question(`new user?(y/n) `, answer => {
         if (answer == "y") {
-            get();
+            getall();
         }
         close();
     });
@@ -104,7 +104,7 @@ function config_function()
     });
 }
 //function get is used to active the imported js file, if i just used it in the newuser fucntion it always activates
-function get() {
+function getall() {
     pcdata("standard");
 }
 function show(params) {
