@@ -1,13 +1,13 @@
 {
-    "config" : {
-        "cpu" : true,
-        "gpu" : false,
-        "memory" : true,
-        "storage" : true,
-        "network" : true
-    },
-    "profile" : {
-        "hostname" :  "default",
-        "description": "Default profile for all users."
-    }
+  "config": {
+    "cpu": true,
+    "gpu": true,
+    "memory": true,
+    "storage": true,
+    "network": true
+  },
+  "profile": {
+    "hostname": "Nils",
+    "description": "Default profile for all users."
+  }
 }

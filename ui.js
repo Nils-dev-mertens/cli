@@ -44,66 +44,68 @@ function newuser() {
 }
 function config_function()
 {
-    const cpu = false;
-    const gpu = false;
-    const memory = false;
-    const storage = false;
-    const network = false;
+
+    let cpu = false;
+    let gpu = false;
+    let memory = false;
+    let storage = false;
+    let network = false;
+    let name = "";
     rl = createReadlineInterface();
     rl.question('cpu? (y/n) ', (cpuAnswer) => {
         if (cpuAnswer === 'y') {
-            console.log('You chose CPU');
+            cpu = true;
+            console.log("true")
         }
     
         rl.question('gpu? (y/n) ', (gpuAnswer) => {
             if (gpuAnswer === 'y') {
-                console.log('You chose GPU');
+                gpu = true;
             }
     
             rl.question('memory? (y/n) ', (memoryAnswer) => {
                 if (memoryAnswer === 'y') {
-                    console.log('You chose Memory');
+                    memory = true;
                 }
     
                 rl.question('storage? (y/n) ', (storageAnswer) => {
                     if (storageAnswer === 'y') {
-                        console.log('You chose Storage');
+                        storage = true
                     }
     
                     rl.question('network? (y/n) ', (networkAnswer) => {
                         if (networkAnswer === 'y') {
-                            console.log('You chose Network');
+                            network = true;
                         }
-                        rl.question('name y/n', (networkAnswer) => {
-                            if (networkAnswer === 'y') {
-                                console.log('You chose Network');
+                        rl.question('name? ', (nameanswer) => {
+                            if (nameanswer != "") {
+                                console.log(nameanswer);
+                                name = nameanswer;
                             }
-                            rl.question('network? (y/n) ', (networkAnswer) => {
-                                if (networkAnswer === 'y') {
-                                    console.log('You chose Network');
+                            const locarr = {
+                                "config" : {
+                                    "cpu": cpu,
+                                    "gpu": gpu,
+                                    "memory": memory, 
+                                    "storage": storage,
+                                    "network": network
+                                },
+                                "profile" : {
+                                    "hostname" :  name,
                                 }
-                                rl.close();
-                            });
+                            };
+                            fs.writeFile("config.json", JSON.stringify(locarr, null, 2));
+                            close();
                         });
                     });
                 });
             });
         });
     });
-    const locarr = {
-        "config" : {
-            "cpu": cpu,
-            "gpu": gpu,
-            "memory": memory, 
-            "storage": storage,
-            "network": network
-        }
-    };
-    fs.writeFile("all.json", JSON.stringify(locarr, null, 2));
 }
 //function get is used to active the imported js file, if i just used it in the newuser fucntion it always activates
 function get() {
-    pcdata("y");
+    pcdata("standard");
 }
 function show(params) {
     console.log(params);
