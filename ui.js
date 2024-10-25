@@ -55,7 +55,6 @@ function config_function()
     rl.question('cpu? (y/n) ', (cpuAnswer) => {
         if (cpuAnswer === 'y') {
             cpu = true;
-            console.log("true")
         }
     
         rl.question('gpu? (y/n) ', (gpuAnswer) => {
@@ -112,7 +111,18 @@ function get_info_data() {
     pcdata("config");
 }
 function show(params) {
-    console.log(params);
+    if(params === config_data){
+        data.forEach(element => 
+            {
+                if(element.hasOwnProperty("cpu") && config_data.config.cpu === true){
+                    console.log("het is cpu");
+                    console.log(element);
+                }
+            });
+    }
+    else if(params === data){
+        console.log(data);
+    }
 }
 function close() {
     rl.close();

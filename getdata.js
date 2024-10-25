@@ -18,27 +18,27 @@ else if(param === "config"){
   if(boolcpu === true){
     const local_data_cpu = await si.cpu()
       .then(data => {return data});
-    arr.push(local_data_cpu);
+    arr.push({"cpu":local_data_cpu});
   }
   if(boolgpu === true){
     const local_data_gpu = await si.graphics()
       .then(data => {return data});
-    arr.push(local_data_gpu);
+    arr.push({"gpu":local_data_gpu});
   }
   if(boolmemory === true){
     const local_data_memory = await si.mem()
       .then(data => {return data});
-    arr.push(local_data_memory);
+    arr.push({"memory":local_data_memory});
   }
   if(boolstorage === true){
     const local_data_storage = await si.diskLayout()
       .then(data => {return data});
-    arr.push(local_data_storage);
+    arr.push({"storage":local_data_storage});
   }
   if(boolnetwork === true){
     const local_data_network = await si.networkGatewayDefault()
       .then(data => {return data});
-    arr.push(local_data_network);
+    arr.push({"network":local_data_network});
   }
   fs.writeFile("data.json", JSON.stringify(arr, null, 2));
 }
