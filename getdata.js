@@ -43,4 +43,3 @@ else if(param === "config"){
   fs.writeFile("data.json", JSON.stringify(arr, null, 2));
 }
 }
-createdata("config");

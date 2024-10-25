@@ -7,7 +7,6 @@
     "network": true
   },
   "profile": {
-    "hostname": "Nils",
-    "description": "Default profile for all users."
+    "hostname": "Nils"
   }
 }

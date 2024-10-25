@@ -95,6 +95,7 @@ function config_function()
                                 }
                             };
                             fs.writeFile("config.json", JSON.stringify(locarr, null, 2));
+                            get_info_data();
                             close();
                         });
                     });
@@ -106,6 +107,9 @@ function config_function()
 //function get is used to active the imported js file, if i just used it in the newuser fucntion it always activates
 function getall() {
     pcdata("standard");
+}
+function get_info_data() {
+    pcdata("config");
 }
 function show(params) {
     console.log(params);
