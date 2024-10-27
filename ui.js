@@ -1,6 +1,7 @@
 import pcdata from "./getdata.js";
 import readline from 'node:readline';
 import fs from "fs/promises";
+import chalk from "chalk";
 import data from "./data.json" assert {type : "json"};
 import config_data from "./config.json" assert {type : "json"};
 const col_function = [];
@@ -28,7 +29,11 @@ if (args.length != 0) {
             case "-config":
                 col_function.push(config_function);
                 break;
+            case "--help":
+                col_function.push(options);
+                break;
             default:
+                console.log(`${element} is not a valid argument. use --help for help with arguments`)
                 break;
         }
     }
@@ -115,8 +120,23 @@ function show(params) {
         data.forEach(element => 
             {
                 if(element.hasOwnProperty("cpu") && config_data.config.cpu === true){
-                    console.log("het is cpu");
-                    console.log(element);
+                    console.log(element.cpu.brand);
+                }
+                if(element.hasOwnProperty("gpu") && config_data.config.gpu === true){
+                    console.log(element.gpu.controllers[0].model);
+                }
+                if(element.hasOwnProperty("memory") && config_data.config.memory === true){
+                    console.log(element.memory.total);
+                }
+                if(element.hasOwnProperty("storage") && config_data.config.storage === true){
+                    let totalmem = 0
+                    element.storage.forEach(elementof => {
+                        totalmem += elementof.size;
+                    });
+                    console.log(totalmem);
+                }
+                if(element.hasOwnProperty("network") && config_data.config.network === true){
+                    console.log(element.network);
                 }
             });
     }
@@ -126,6 +146,12 @@ function show(params) {
 }
 function close() {
     rl.close();
+}
+function options() {
+    console.log("-f gets all info of the pc");
+    console.log("-sd shows all data based on the config");
+    console.log("-sc shows all config based on the data");
+    console.log("--help shows all options");
 }
 col_function.forEach(element => {
     if(Array.isArray(element)){
