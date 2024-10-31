@@ -2,6 +2,7 @@ import pcdata from "./getdata.js";
 import readline from 'node:readline';
 import fs from "fs/promises";
 import chalk from "chalk";
+import inquire from "inquirer"
 import data from "./data.json" assert {type : "json"};
 import config_data from "./config.json" assert {type : "json"};
 const col_function = [];
@@ -33,7 +34,7 @@ if (args.length != 0) {
                 col_function.push(options);
                 break;
             default:
-                console.log(`${element} is not a valid argument. use --help for help with arguments`)
+                console.log(chalk.redBright(`${element} is not a valid argument. use --help for help with arguments`));
                 break;
         }
     }
@@ -49,13 +50,30 @@ function newuser() {
 }
 function config_function()
 {
-
+    const colorstype = [
+        {
+          type: 'list',
+          name: 'color',
+          message: 'What color for type:',
+          choices: ['green', 'red', 'yellow']
+        }
+      ];
+      const colorsvalue = [
+        {
+          type: 'list',
+          name: 'color',
+          message: 'What color for valiable:',
+          choices: ['green', 'red', 'yellow']
+        }
+      ];
     let cpu = false;
     let gpu = false;
     let memory = false;
     let storage = false;
     let network = false;
     let name = "";
+    let colortype = "";
+    let colorvalue = "";
     rl = createReadlineInterface();
     rl.question('cpu? (y/n) ', (cpuAnswer) => {
         if (cpuAnswer === 'y') {
@@ -81,25 +99,33 @@ function config_function()
                         if (networkAnswer === 'y') {
                             network = true;
                         }
-                        rl.question('name? ', (nameanswer) => {
+                            rl.question('name? ', (nameanswer) => {
                             if (nameanswer != "") {
                                 console.log(nameanswer);
                                 name = nameanswer;
                             }
-                            const locarr = {
-                                "config" : {
-                                    "cpu": cpu,
-                                    "gpu": gpu,
-                                    "memory": memory, 
-                                    "storage": storage,
-                                    "network": network
-                                },
-                                "profile" : {
-                                    "hostname" :  name,
-                                }
-                            };
-                            fs.writeFile("config.json", JSON.stringify(locarr, null, 2));
-                            get_info_data();
+                            inquire.prompt(colorstype).then((answertype) => { 
+                                colortype = answertype.color;
+                                inquire.prompt(colorsvalue).then((answervalue) => { 
+                                    colorvalue = answervalue.color;
+                                const locarr = {
+                                    "config" : {
+                                        "cpu": cpu,
+                                        "gpu": gpu,
+                                        "memory": memory, 
+                                        "storage": storage,
+                                        "network": network
+                                    },
+                                    "profile" : {
+                                        "hostname" :  name,
+                                        "colortype" : colortype,
+                                        "colorvalue" : colorvalue
+                                    }
+                                };
+                                fs.writeFile("config.json", JSON.stringify(locarr, null, 2));
+                                get_info_data();
+                                });
+                            });
                             close();
                         });
                     });
@@ -120,28 +146,46 @@ function show(params) {
         data.forEach(element => 
             {
                 if(element.hasOwnProperty("cpu") && config_data.config.cpu === true){
-                    console.log(element.cpu.brand);
+                    console.log(showcolorconsole("CPU => ", config_data.profile.colortype) + showcolorconsole(element.cpu.brand, config_data.profile.colorvalue));
                 }
                 if(element.hasOwnProperty("gpu") && config_data.config.gpu === true){
-                    console.log(element.gpu.controllers[0].model);
+                    console.log(showcolorconsole("GPU => ", config_data.profile.colortype) + showcolorconsole(element.gpu.controllers[0].model, config_data.profile.colorvalue));
                 }
                 if(element.hasOwnProperty("memory") && config_data.config.memory === true){
-                    console.log(element.memory.total);
+                    console.log(showcolorconsole("Memory => ", config_data.profile.colortype) + showcolorconsole(element.memory.total, config_data.profile.colorvalue));
                 }
                 if(element.hasOwnProperty("storage") && config_data.config.storage === true){
                     let totalmem = 0
                     element.storage.forEach(elementof => {
                         totalmem += elementof.size;
                     });
-                    console.log(totalmem);
+                    console.log(showcolorconsole("Storage => ", config_data.profile.colortype) + showcolorconsole(totalmem, config_data.profile.colorvalue));
                 }
                 if(element.hasOwnProperty("network") && config_data.config.network === true){
-                    console.log(element.network);
+                    console.log(showcolorconsole("Network => ", config_data.profile.colortype) + showcolorconsole(element.network, config_data.profile.colorvalue));
                 }
             });
+            if(config_data.profile.hostname != ""){
+            console.log(showcolorconsole("Hostname => ", config_data.profile.colortype) + showcolorconsole(config_data.profile.hostname, config_data.profile.colorvalue));
+        }
     }
     else if(params === data){
         console.log(data);
+    }
+}
+function showcolorconsole(string , color){
+    switch (color) {
+        case "green": 
+            return chalk.green(`${string}`); 
+        break; 
+        case "red": 
+            return chalk.red(`${string}`); 
+        break; 
+        case "yellow": 
+            return chalk.yellow(`${string}`); 
+        break; 
+        default: 
+        break;
     }
 }
 function close() {
@@ -151,6 +195,7 @@ function options() {
     console.log("-f gets all info of the pc");
     console.log("-sd shows all data based on the config");
     console.log("-sc shows all config based on the data");
+    console.log("-config gives prompts to make the config file");
     console.log("--help shows all options");
 }
 col_function.forEach(element => {

@@ -7,6 +7,8 @@
     "network": true
   },
   "profile": {
-    "hostname": "Nils"
+    "hostname": "Nils",
+    "colortype": "red",
+    "colorvalue": "yellow"
   }
 }
