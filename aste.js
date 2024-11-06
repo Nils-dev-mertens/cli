@@ -2,6 +2,7 @@ import sharp from 'sharp';
 import fs from "fs/promises";
 const path = './foto.jpg';
 let locarr = [];
+export default function create(){
 sharp(path)
   .raw()
   .toBuffer({ resolveWithObject: true })
@@ -18,12 +19,12 @@ sharp(path)
       };
       string += returncharacter(pixel.r, pixel.g, pixel.b, dens);
       if (string.length >= width) {
-        console.log(string);
         locarr.push(string);
         string = "";
       }
     }
     fs.writeFile("./ascii.json", JSON.stringify(locarr, null, 2));
+    console.log("Created ascii file");
   })
   .catch(err => {
     console.error("Error reading image data:", err);
@@ -32,4 +33,5 @@ function returncharacter(r, g, b, dens) {
   const avg = (r + g + b) / 3;
   const index = Math.floor(avg / (255 / dens.length));
   return dens[index];
+}
 }

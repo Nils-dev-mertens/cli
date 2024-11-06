@@ -3,6 +3,7 @@ import readline from 'node:readline';
 import fs from "fs/promises";
 import chalk from "chalk";
 import inquire from "inquirer";
+import aste from "./aste.js";
 import ascii from "./ascii.json" assert {type : "json"};
 import data from "./data.json" assert {type : "json"};
 import config_data from "./config.json" assert {type : "json"};
@@ -34,6 +35,9 @@ if (args.length != 0) {
             case "--help":
                 col_function.push(options);
                 break;
+            case "-ascii":
+                col_function.push(create_art);
+            break;
             default:
                 console.log(chalk.redBright(`${element} is not a valid argument. use --help for help with arguments`));
                 break;
@@ -241,6 +245,11 @@ function options() {
     console.log("-sc shows all config based on the data");
     console.log("-config gives prompts to make the config file");
     console.log("--help shows all options");
+    console.log("-ascii creates ascii art");
+}
+function create_art()
+{
+    aste();
 }
 col_function.forEach(element => {
     if(Array.isArray(element)){

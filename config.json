@@ -10,6 +10,6 @@
     "hostname": "Nils",
     "colortype": "green",
     "colorvalue": "yellow",
-    "ascii": false
+    "ascii": true
   }
 }
