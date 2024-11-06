@@ -1,14 +1,14 @@
 import sharp from 'sharp';
+import fs from "fs/promises";
 const path = './foto.jpg';
+let locarr = [];
 sharp(path)
-  .raw() // Get raw pixel data in RGBA format
+  .raw()
   .toBuffer({ resolveWithObject: true })
   .then(({ data, info }) => {
     const { width, height, channels } = info;
     const dens = "  Ñ@#W$9876543210?!abc;:+=-,._   ";
-    const pixels = [];
     let string = "";
-    
     for (let i = 0; i < data.length; i += channels) {
       const pixel = {
         r: data[i],
@@ -16,27 +16,18 @@ sharp(path)
         b: data[i + 2],
         a: channels === 4 ? data[i + 3] : 255
       };
-
-      // Add ASCII character to the row
       string += returncharacter(pixel.r, pixel.g, pixel.b, dens);
-
-      // If string has reached the width of the image, print it and reset
       if (string.length >= width) {
         console.log(string);
+        locarr.push(string);
         string = "";
       }
-
-      pixels.push(pixel);
     }
-    
-    console.log("Image Width:", width);
-    console.log("Image Height:", height);
-    // console.log("Pixels:", pixels); // Logs an array of pixel data (optional)
+    fs.writeFile("./ascii.json", JSON.stringify(locarr, null, 2));
   })
   .catch(err => {
     console.error("Error reading image data:", err);
   });
-
 function returncharacter(r, g, b, dens) {
   const avg = (r + g + b) / 3;
   const index = Math.floor(avg / (255 / dens.length));
