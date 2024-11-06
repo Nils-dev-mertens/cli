@@ -49,19 +49,19 @@
   {
     "memory": {
       "total": 8180387840,
-      "free": 1621127168,
-      "used": 6559260672,
-      "active": 4334403584,
-      "available": 3845984256,
-      "buffers": 140115968,
-      "cached": 2222731264,
-      "slab": 354930688,
-      "buffcache": 2717777920,
+      "free": 568262656,
+      "used": 7612125184,
+      "active": 4433264640,
+      "available": 3747123200,
+      "buffers": 161701888,
+      "cached": 3158999040,
+      "slab": 352391168,
+      "buffcache": 3673092096,
       "swaptotal": 1024434176,
-      "swapused": 1024421888,
-      "swapfree": 12288,
+      "swapused": 1024434176,
+      "swapfree": 0,
       "writeback": 0,
-      "dirty": 176128
+      "dirty": 249856
     }
   },
   {

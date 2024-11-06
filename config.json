@@ -8,7 +8,8 @@
   },
   "profile": {
     "hostname": "Nils",
-    "colortype": "red",
-    "colorvalue": "yellow"
+    "colortype": "green",
+    "colorvalue": "yellow",
+    "ascii": false
   }
 }

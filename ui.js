@@ -2,7 +2,8 @@ import pcdata from "./getdata.js";
 import readline from 'node:readline';
 import fs from "fs/promises";
 import chalk from "chalk";
-import inquire from "inquirer"
+import inquire from "inquirer";
+import ascii from "./ascii.json" assert {type : "json"};
 import data from "./data.json" assert {type : "json"};
 import config_data from "./config.json" assert {type : "json"};
 const col_function = [];
@@ -71,6 +72,7 @@ function config_function()
     let memory = false;
     let storage = false;
     let network = false;
+    let asciianswer = false;
     let name = "";
     let colortype = "";
     let colorvalue = "";
@@ -99,6 +101,10 @@ function config_function()
                         if (networkAnswer === 'y') {
                             network = true;
                         }
+                        rl.question('ascii? (y/n) ', (networkAscii) => {
+                            if (networkAscii === 'y') {
+                                asciianswer = true;
+                            }
                             rl.question('name? ', (nameanswer) => {
                             if (nameanswer != "") {
                                 console.log(nameanswer);
@@ -119,7 +125,8 @@ function config_function()
                                     "profile" : {
                                         "hostname" :  name,
                                         "colortype" : colortype,
-                                        "colorvalue" : colorvalue
+                                        "colorvalue" : colorvalue,
+                                        "ascii" : asciianswer
                                     }
                                 };
                                 fs.writeFile("config.json", JSON.stringify(locarr, null, 2));
@@ -133,6 +140,7 @@ function config_function()
             });
         });
     });
+});
 }
 //function get is used to active the imported js file, if i just used it in the newuser fucntion it always activates
 function getall() {
@@ -143,6 +151,7 @@ function get_info_data() {
 }
 function show(params) {
     if(params === config_data){
+        if(config_data.profile.ascii != true){
         data.forEach(element => 
             {
                 if(element.hasOwnProperty("cpu") && config_data.config.cpu === true){
@@ -167,6 +176,41 @@ function show(params) {
             });
             if(config_data.profile.hostname != ""){
             console.log(showcolorconsole("Hostname => ", config_data.profile.colortype) + showcolorconsole(config_data.profile.hostname, config_data.profile.colorvalue));
+        }
+    }
+    else{
+        for (let i = 0; i < ascii.length; i++) {
+            let element = "";
+            if(i < data.length)
+                {
+                    element = data[i];
+                }
+                if(element.hasOwnProperty("cpu") && config_data.config.cpu === true){
+                    console.log(showcolorconsole(ascii[i]+"     "+"CPU => ", config_data.profile.colortype) + showcolorconsole(element.cpu.brand, config_data.profile.colorvalue));
+                }
+                if(element.hasOwnProperty("gpu") && config_data.config.gpu === true){
+                    console.log(showcolorconsole(ascii[i]+"     "+"GPU => ", config_data.profile.colortype) + showcolorconsole(element.gpu.controllers[0].model, config_data.profile.colorvalue));
+                }
+                if(element.hasOwnProperty("memory") && config_data.config.memory === true){
+                    console.log(showcolorconsole(ascii[i]+"     "+"Memory => ", config_data.profile.colortype) + showcolorconsole(element.memory.total, config_data.profile.colorvalue));
+                }
+                if(element.hasOwnProperty("storage") && config_data.config.storage === true){
+                    let totalmem = 0
+                    element.storage.forEach(elementof => {
+                        totalmem += elementof.size;
+                    });
+                    console.log(showcolorconsole(ascii[i]+"     "+"Storage => ", config_data.profile.colortype) + showcolorconsole(totalmem, config_data.profile.colorvalue));
+                }
+                if(element.hasOwnProperty("network") && config_data.config.network === true){
+                    console.log(showcolorconsole(ascii[i]+"     "+"Network => ", config_data.profile.colortype) + showcolorconsole(element.network, config_data.profile.colorvalue));
+                }
+                if(element === ""){
+                    console.log(showcolorconsole(ascii[i], config_data.profile.colortype));
+                }
+            }
+            if(config_data.profile.hostname != ""){
+            console.log(showcolorconsole("Hostname => ", config_data.profile.colortype) + showcolorconsole(config_data.profile.hostname, config_data.profile.colorvalue));
+            }       
         }
     }
     else if(params === data){
